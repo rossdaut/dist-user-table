@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+service Chord {
+    rpc FindSuccessor (SuccessorRequest) returns (Node) {}
+    rpc Predecessor (Empty) returns (OptionalNode) {}
+    rpc Notify (Node) returns (Empty) {}
+}
+
+message SuccessorRequest {
+    bytes id = 1;
+}
+
+message OptionalNode {
+    bool exists = 1;
+    Node node = 2;
+}
+
+message Node {
+    string ip = 1;
+    int32 port = 2;
+}
+
+message Empty {}
