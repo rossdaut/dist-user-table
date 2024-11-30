@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from chord import chord_pb2 as chord_dot_chord__pb2
+from stubs import chord_pb2 as stubs_dot_chord__pb2
 
 GRPC_GENERATED_VERSION = '1.68.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in chord/chord_pb2_grpc.py depends on'
+        + f' but the generated code in stubs/chord_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,18 +36,18 @@ class ChordStub(object):
         """
         self.FindSuccessor = channel.unary_unary(
                 '/Chord/FindSuccessor',
-                request_serializer=chord_dot_chord__pb2.SuccessorRequest.SerializeToString,
-                response_deserializer=chord_dot_chord__pb2.Node.FromString,
+                request_serializer=stubs_dot_chord__pb2.SuccessorRequest.SerializeToString,
+                response_deserializer=stubs_dot_chord__pb2.Node.FromString,
                 _registered_method=True)
         self.Predecessor = channel.unary_unary(
                 '/Chord/Predecessor',
-                request_serializer=chord_dot_chord__pb2.Empty.SerializeToString,
-                response_deserializer=chord_dot_chord__pb2.OptionalNode.FromString,
+                request_serializer=stubs_dot_chord__pb2.Empty.SerializeToString,
+                response_deserializer=stubs_dot_chord__pb2.OptionalNode.FromString,
                 _registered_method=True)
         self.Notify = channel.unary_unary(
                 '/Chord/Notify',
-                request_serializer=chord_dot_chord__pb2.Node.SerializeToString,
-                response_deserializer=chord_dot_chord__pb2.Empty.FromString,
+                request_serializer=stubs_dot_chord__pb2.Node.SerializeToString,
+                response_deserializer=stubs_dot_chord__pb2.Empty.FromString,
                 _registered_method=True)
 
 
@@ -77,18 +77,18 @@ def add_ChordServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'FindSuccessor': grpc.unary_unary_rpc_method_handler(
                     servicer.FindSuccessor,
-                    request_deserializer=chord_dot_chord__pb2.SuccessorRequest.FromString,
-                    response_serializer=chord_dot_chord__pb2.Node.SerializeToString,
+                    request_deserializer=stubs_dot_chord__pb2.SuccessorRequest.FromString,
+                    response_serializer=stubs_dot_chord__pb2.Node.SerializeToString,
             ),
             'Predecessor': grpc.unary_unary_rpc_method_handler(
                     servicer.Predecessor,
-                    request_deserializer=chord_dot_chord__pb2.Empty.FromString,
-                    response_serializer=chord_dot_chord__pb2.OptionalNode.SerializeToString,
+                    request_deserializer=stubs_dot_chord__pb2.Empty.FromString,
+                    response_serializer=stubs_dot_chord__pb2.OptionalNode.SerializeToString,
             ),
             'Notify': grpc.unary_unary_rpc_method_handler(
                     servicer.Notify,
-                    request_deserializer=chord_dot_chord__pb2.Node.FromString,
-                    response_serializer=chord_dot_chord__pb2.Empty.SerializeToString,
+                    request_deserializer=stubs_dot_chord__pb2.Node.FromString,
+                    response_serializer=stubs_dot_chord__pb2.Empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -116,8 +116,8 @@ class Chord(object):
             request,
             target,
             '/Chord/FindSuccessor',
-            chord_dot_chord__pb2.SuccessorRequest.SerializeToString,
-            chord_dot_chord__pb2.Node.FromString,
+            stubs_dot_chord__pb2.SuccessorRequest.SerializeToString,
+            stubs_dot_chord__pb2.Node.FromString,
             options,
             channel_credentials,
             insecure,
@@ -143,8 +143,8 @@ class Chord(object):
             request,
             target,
             '/Chord/Predecessor',
-            chord_dot_chord__pb2.Empty.SerializeToString,
-            chord_dot_chord__pb2.OptionalNode.FromString,
+            stubs_dot_chord__pb2.Empty.SerializeToString,
+            stubs_dot_chord__pb2.OptionalNode.FromString,
             options,
             channel_credentials,
             insecure,
@@ -170,8 +170,8 @@ class Chord(object):
             request,
             target,
             '/Chord/Notify',
-            chord_dot_chord__pb2.Node.SerializeToString,
-            chord_dot_chord__pb2.Empty.FromString,
+            stubs_dot_chord__pb2.Node.SerializeToString,
+            stubs_dot_chord__pb2.Empty.FromString,
             options,
             channel_credentials,
             insecure,
