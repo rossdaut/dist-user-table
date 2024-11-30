@@ -1,5 +1,6 @@
 import sys
-from server import Server
+
+from .server import Server
 
 port = 50051
 join_port = None

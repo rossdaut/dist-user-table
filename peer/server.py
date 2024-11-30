@@ -2,8 +2,8 @@ from concurrent import futures
 import grpc
 
 from stubs import chord_pb2, chord_pb2_grpc
-from chord_servicer import ChordServicer
 from constants import M
+from .chord_servicer import ChordServicer
 
 class Server:
     def __init__(self, ip, port, join_port=None):

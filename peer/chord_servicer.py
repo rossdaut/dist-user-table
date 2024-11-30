@@ -1,6 +1,6 @@
-from utils import *
 from stubs import chord_pb2, chord_pb2_grpc
 from constants import M
+from .utils import *
 
 class ChordServicer(chord_pb2_grpc.ChordServicer):
     def __init__(self, ip, port):
