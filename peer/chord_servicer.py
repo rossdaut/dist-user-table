@@ -40,7 +40,7 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
 
     def Notify(self, node, context):
         id = generate_id(node.ip, node.port)
-        if self.predecessor == None or in_mod_range(id, self.predecessor_id+1, self.id-1):
+        if self.predecessor == None or in_mod_range(id, self.predecessor_id, self.id):
             self.predecessor = node
 
         return chord_pb2.Empty()
@@ -49,7 +49,7 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
     ### PRIVATE ###
 
     def find_successor(self, id):
-        if in_mod_range(id, self.id+1, self.successor_id):
+        if in_mod_range(id, self.id, self.successor_id+1):
             return self.successor
         
         n = self.closest_preceding_node(id)
@@ -62,7 +62,7 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
                 continue
 
             node_id = generate_id(self.finger[i].ip, self.finger[i].port)
-            if in_mod_range(node_id, self.id+1, id-1):
+            if in_mod_range(node_id, self.id, id):
                 return self.finger[i]
 
         return self.node
@@ -81,7 +81,7 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
         if optional_successor.exists:
             id = generate_id(new_successor.ip, new_successor.port)
 
-            if in_mod_range(id, self.id + 1, self.successor_id-1):
+            if in_mod_range(id, self.id, self.successor_id):
                 self.successor = new_successor
 
         remote_notify(self.successor, self.node)
