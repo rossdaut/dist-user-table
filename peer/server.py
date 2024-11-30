@@ -1,9 +1,7 @@
 from concurrent import futures
-import sys
-import time
 import grpc
 
-from chord import chord_pb2, chord_pb2_grpc
+from stubs import chord_pb2, chord_pb2_grpc
 from chord_servicer import ChordServicer
 from constants import M
 

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import math
 
 import grpc
-from chord import chord_pb2, chord_pb2_grpc
+from stubs import chord_pb2, chord_pb2_grpc
 import hashlib
 from constants import M
 
