@@ -19,12 +19,14 @@ class OptionalNode(_message.Message):
     def __init__(self, exists: bool = ..., node: _Optional[_Union[Node, _Mapping]] = ...) -> None: ...
 
 class Node(_message.Message):
-    __slots__ = ("ip", "port")
+    __slots__ = ("id", "ip", "port")
+    ID_FIELD_NUMBER: _ClassVar[int]
     IP_FIELD_NUMBER: _ClassVar[int]
     PORT_FIELD_NUMBER: _ClassVar[int]
+    id: bytes
     ip: str
     port: int
-    def __init__(self, ip: _Optional[str] = ..., port: _Optional[int] = ...) -> None: ...
+    def __init__(self, id: _Optional[bytes] = ..., ip: _Optional[str] = ..., port: _Optional[int] = ...) -> None: ...
 
 class Empty(_message.Message):
     __slots__ = ()
