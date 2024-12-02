@@ -26,21 +26,10 @@ def generate_id(ip, port):
     return int(hexdigest, 16) % (2 ** M)
 
 def in_mod_range(value, start, end, lclosed=False, rclosed=False):
-    if (value < 0) or (start < 0) or (end < 0):
-        raise ValueError("Value, start, and end must be positive")
-    if (value >= 2**M) or (start >= 2**M) or (end >= 2**M):
-        raise ValueError("Value, start, and end must be less than 2^M")
-
-    # Normalize
-    value = (value - start) % M
-    end   = (end - start)   % M
-    start = 0
-
-    # Check
-    left_check  = start <= value if lclosed else start < value
-    right_check = value <= end   if rclosed else value < end
-
-    return left_check and right_check
+    if start < end:
+        return start < value < end or (lclosed and value == start) or (rclosed and value == end)
+    else:
+        return start < value or value < end or (lclosed and value == start) or (rclosed and value == end)
 
 def id_to_bytes(id):
     return id.to_bytes(length=math.ceil(M/8))

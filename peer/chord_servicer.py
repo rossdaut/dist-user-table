@@ -49,6 +49,9 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
     ### PRIVATE ###
 
     def find_successor(self, id):
+        if self.id == self.successor_id:
+            return self.node
+
         if in_mod_range(id, self.id, self.successor_id+1):
             return self.successor
         
