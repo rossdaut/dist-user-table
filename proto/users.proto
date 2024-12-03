@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+service Users {
+    rpc GetUserStatus (UserId) returns (OptionalUserStatus) {}
+    rpc SetUserStatus (SetStatusRequest) returns (SetStatusResponse) {}
+}
+
+message UserId {
+    int32 user_id = 1;
+}
+
+message OptionalUserStatus {
+    Status status = 1;
+    bool exists = 2;
+}
+
+message SetStatusRequest {
+    int32 user_id = 1;
+    Status status = 2;
+}
+
+message SetStatusResponse {
+    bool success = 1;
+}
+
+enum Status {
+    ONLINE = 0;
+    OFFLINE = 1;
+}
