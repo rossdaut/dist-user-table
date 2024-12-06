@@ -37,7 +37,7 @@ class UsersStub(object):
         self.GetUserStatus = channel.unary_unary(
                 '/Users/GetUserStatus',
                 request_serializer=stubs_dot_users__pb2.UserId.SerializeToString,
-                response_deserializer=stubs_dot_users__pb2.UserStatus.FromString,
+                response_deserializer=stubs_dot_users__pb2.OptionalUserStatus.FromString,
                 _registered_method=True)
         self.SetUserStatus = channel.unary_unary(
                 '/Users/SetUserStatus',
@@ -67,7 +67,7 @@ def add_UsersServicer_to_server(servicer, server):
             'GetUserStatus': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUserStatus,
                     request_deserializer=stubs_dot_users__pb2.UserId.FromString,
-                    response_serializer=stubs_dot_users__pb2.UserStatus.SerializeToString,
+                    response_serializer=stubs_dot_users__pb2.OptionalUserStatus.SerializeToString,
             ),
             'SetUserStatus': grpc.unary_unary_rpc_method_handler(
                     servicer.SetUserStatus,
@@ -101,7 +101,7 @@ class Users(object):
             target,
             '/Users/GetUserStatus',
             stubs_dot_users__pb2.UserId.SerializeToString,
-            stubs_dot_users__pb2.UserStatus.FromString,
+            stubs_dot_users__pb2.OptionalUserStatus.FromString,
             options,
             channel_credentials,
             insecure,

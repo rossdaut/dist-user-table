@@ -24,23 +24,23 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11stubs/users.proto\"\x19\n\x06UserId\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"%\n\nUserStatus\x12\x17\n\x06status\x18\x01 \x01(\x0e\x32\x07.Status\"<\n\x10SetStatusRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x17\n\x06status\x18\x02 \x01(\x0e\x32\x07.Status\"$\n\x11SetStatusResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08*!\n\x06Status\x12\n\n\x06ONLINE\x10\x00\x12\x0b\n\x07OFFLINE\x10\x01\x32j\n\x05Users\x12\'\n\rGetUserStatus\x12\x07.UserId\x1a\x0b.UserStatus\"\x00\x12\x38\n\rSetUserStatus\x12\x11.SetStatusRequest\x1a\x12.SetStatusResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11stubs/users.proto\"\x19\n\x06UserId\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"=\n\x12OptionalUserStatus\x12\x17\n\x06status\x18\x01 \x01(\x0e\x32\x07.Status\x12\x0e\n\x06\x65xists\x18\x02 \x01(\x08\"<\n\x10SetStatusRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x17\n\x06status\x18\x02 \x01(\x0e\x32\x07.Status\"$\n\x11SetStatusResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08*!\n\x06Status\x12\n\n\x06ONLINE\x10\x00\x12\x0b\n\x07OFFLINE\x10\x01\x32r\n\x05Users\x12/\n\rGetUserStatus\x12\x07.UserId\x1a\x13.OptionalUserStatus\"\x00\x12\x38\n\rSetUserStatus\x12\x11.SetStatusRequest\x1a\x12.SetStatusResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'stubs.users_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_STATUS']._serialized_start=187
-  _globals['_STATUS']._serialized_end=220
+  _globals['_STATUS']._serialized_start=211
+  _globals['_STATUS']._serialized_end=244
   _globals['_USERID']._serialized_start=21
   _globals['_USERID']._serialized_end=46
-  _globals['_USERSTATUS']._serialized_start=48
-  _globals['_USERSTATUS']._serialized_end=85
-  _globals['_SETSTATUSREQUEST']._serialized_start=87
-  _globals['_SETSTATUSREQUEST']._serialized_end=147
-  _globals['_SETSTATUSRESPONSE']._serialized_start=149
-  _globals['_SETSTATUSRESPONSE']._serialized_end=185
-  _globals['_USERS']._serialized_start=222
-  _globals['_USERS']._serialized_end=328
+  _globals['_OPTIONALUSERSTATUS']._serialized_start=48
+  _globals['_OPTIONALUSERSTATUS']._serialized_end=109
+  _globals['_SETSTATUSREQUEST']._serialized_start=111
+  _globals['_SETSTATUSREQUEST']._serialized_end=171
+  _globals['_SETSTATUSRESPONSE']._serialized_start=173
+  _globals['_SETSTATUSRESPONSE']._serialized_end=209
+  _globals['_USERS']._serialized_start=246
+  _globals['_USERS']._serialized_end=360
 # @@protoc_insertion_point(module_scope)

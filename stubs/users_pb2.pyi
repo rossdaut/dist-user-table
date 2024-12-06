@@ -18,11 +18,13 @@ class UserId(_message.Message):
     user_id: int
     def __init__(self, user_id: _Optional[int] = ...) -> None: ...
 
-class UserStatus(_message.Message):
-    __slots__ = ("status",)
+class OptionalUserStatus(_message.Message):
+    __slots__ = ("status", "exists")
     STATUS_FIELD_NUMBER: _ClassVar[int]
+    EXISTS_FIELD_NUMBER: _ClassVar[int]
     status: Status
-    def __init__(self, status: _Optional[_Union[Status, str]] = ...) -> None: ...
+    exists: bool
+    def __init__(self, status: _Optional[_Union[Status, str]] = ..., exists: bool = ...) -> None: ...
 
 class SetStatusRequest(_message.Message):
     __slots__ = ("user_id", "status")

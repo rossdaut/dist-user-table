@@ -7,12 +7,12 @@ class UsersServicer(users_pb2_grpc.UsersServicer):
 
     def GetUserStatus(self, request, context):
         user_id = request.user_id
-        user_status = self.users[user_id].status if user_id in self.users else None
+        user_status = self.users[user_id] if user_id in self.users else None
 
-        return users_pb2_grpc.OptionalUserStatus(exists=user_status != None , status=user_status)
+        return users_pb2.OptionalUserStatus(exists=user_status != None , status=user_status)
 
     def SetUserStatus(self, request, context):
-        user_id = request.id
+        user_id = request.user_id
         status = request.status
 
         self.users[user_id] = status
