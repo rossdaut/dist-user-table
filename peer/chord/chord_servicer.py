@@ -84,8 +84,8 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
         id = (self.id + 2 ** (next)) % (2 ** M)
         self.finger[next] = self.find_successor(id)
 
-    def write_finger(self):
-        with open(f"finger-{self.node.port}.txt", "w") as f:
+    def write_finger(self, filepath):
+        with open(filepath, "w") as f:
             f.write(f"ID: {self.id}\n")
 
             if self.predecessor != None:

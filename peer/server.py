@@ -1,5 +1,7 @@
 from concurrent import futures
+from datetime import datetime
 import grpc
+import time
 
 from stubs import chord_pb2, chord_pb2_grpc, users_pb2_grpc
 from constants import M
@@ -25,15 +27,22 @@ class Server:
         if self.join_port:
             self.chord_servicer.join(chord_pb2.Node(ip='localhost', port=self.join_port))
 
+        id = self.chord_servicer.id
         next = 0
-        self.chord_servicer.write_finger()
+        log = open(f"output/log_{self.port}.txt", "w")
+
+        self.chord_servicer.write_finger(f"output/finger_{self.port}.txt")
         while True:
-            print("Stabilizing...")
+            log.write(f"[{datetime.now()}] Stabilizing...\n")
             self.chord_servicer.stabilize()
-            print("Fixing fingers...")
+            log.write(f"[{datetime.now()}] Fixing fingers...\n")
             self.chord_servicer.fix_fingers(next)
             next = (next + 1) % M
-            self.chord_servicer.write_finger()
+            self.chord_servicer.write_finger(f"output/finger_{self.port}.txt")
+            self.users_servicer.write_users(f"output/users_{self.port}.txt", id)
+
+            log.flush()
+            time.sleep(1)
 
     def get_user_status(self, user_id):
         successor = self.chord_servicer.find_successor(hash_id(user_id))
