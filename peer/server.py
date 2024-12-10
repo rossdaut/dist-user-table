@@ -6,6 +6,7 @@ from constants import M
 from .chord.chord_servicer import ChordServicer
 from .users.users_servicer import UsersServicer
 from .users.remote import remote_get_user_status, remote_set_user_status
+from .users.utils import hash_id
 
 class Server:
     def __init__(self, ip, port, join_port=None):
@@ -35,11 +36,11 @@ class Server:
             self.chord_servicer.write_finger()
 
     def get_user_status(self, user_id):
-        successor = self.chord_servicer.find_successor(user_id)
+        successor = self.chord_servicer.find_successor(hash_id(user_id))
 
         return remote_get_user_status(successor, user_id)
 
     def set_user_status(self, user_id, status):
-        successor = self.chord_servicer.find_successor(user_id)
+        successor = self.chord_servicer.find_successor(hash_id(user_id))
 
         return remote_set_user_status(successor, user_id, status)
