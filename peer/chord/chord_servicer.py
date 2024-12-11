@@ -5,12 +5,13 @@ from .utils import generate_id, id_from_bytes, in_mod_range
 from .node import Node
 
 class ChordServicer(chord_pb2_grpc.ChordServicer):
-    def __init__(self, ip, port):
+    def __init__(self, ip, port, storage_servicer):
         self.id = generate_id(ip, port)
         self.node = Node(id=self.id, ip=ip, port=port)
         self.predecessor = None
         self.finger = [None] * M
         self.finger[0] = self.node
+        self.storage_servicer = storage_servicer
 
     @property
     def successor(self):
@@ -36,6 +37,9 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
         id = id_from_bytes(grpc_node.id)
         if self.predecessor == None or in_mod_range(id, self.predecessor.id, self.id):
             self.predecessor = Node.of(grpc_node)
+
+            keys_range = range(self.id+1, self.predecessor.id)
+            self.storage_servicer.transfer_data(self.predecessor, keys_range)
 
         return chord_pb2.Empty()
 

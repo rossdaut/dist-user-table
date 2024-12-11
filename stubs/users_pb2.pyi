@@ -1,7 +1,8 @@
+from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
+from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -34,8 +35,21 @@ class SetStatusRequest(_message.Message):
     status: Status
     def __init__(self, user_id: _Optional[int] = ..., status: _Optional[_Union[Status, str]] = ...) -> None: ...
 
-class SetStatusResponse(_message.Message):
+class Response(_message.Message):
     __slots__ = ("success",)
     SUCCESS_FIELD_NUMBER: _ClassVar[int]
     success: bool
     def __init__(self, success: bool = ...) -> None: ...
+
+class TransferUsersRequest(_message.Message):
+    __slots__ = ("users",)
+    class UsersEntry(_message.Message):
+        __slots__ = ("key", "value")
+        KEY_FIELD_NUMBER: _ClassVar[int]
+        VALUE_FIELD_NUMBER: _ClassVar[int]
+        key: int
+        value: Status
+        def __init__(self, key: _Optional[int] = ..., value: _Optional[_Union[Status, str]] = ...) -> None: ...
+    USERS_FIELD_NUMBER: _ClassVar[int]
+    users: _containers.ScalarMap[int, Status]
+    def __init__(self, users: _Optional[_Mapping[int, Status]] = ...) -> None: ...

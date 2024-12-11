@@ -2,7 +2,8 @@ syntax = "proto3";
 
 service Users {
     rpc GetUserStatus (UserId) returns (OptionalUserStatus) {}
-    rpc SetUserStatus (SetStatusRequest) returns (SetStatusResponse) {}
+    rpc SetUserStatus (SetStatusRequest) returns (Response) {}
+    rpc TransferUsers (TransferUsersRequest) returns (Response) {}
 }
 
 message UserId {
@@ -19,8 +20,12 @@ message SetStatusRequest {
     Status status = 2;
 }
 
-message SetStatusResponse {
+message Response {
     bool success = 1;
+}
+
+message TransferUsersRequest {
+    map<int32, Status> users = 1;
 }
 
 enum Status {

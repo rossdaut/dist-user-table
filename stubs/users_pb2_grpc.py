@@ -42,7 +42,12 @@ class UsersStub(object):
         self.SetUserStatus = channel.unary_unary(
                 '/Users/SetUserStatus',
                 request_serializer=stubs_dot_users__pb2.SetStatusRequest.SerializeToString,
-                response_deserializer=stubs_dot_users__pb2.SetStatusResponse.FromString,
+                response_deserializer=stubs_dot_users__pb2.Response.FromString,
+                _registered_method=True)
+        self.TransferUsers = channel.unary_unary(
+                '/Users/TransferUsers',
+                request_serializer=stubs_dot_users__pb2.TransferUsersRequest.SerializeToString,
+                response_deserializer=stubs_dot_users__pb2.Response.FromString,
                 _registered_method=True)
 
 
@@ -61,6 +66,12 @@ class UsersServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def TransferUsers(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UsersServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -72,7 +83,12 @@ def add_UsersServicer_to_server(servicer, server):
             'SetUserStatus': grpc.unary_unary_rpc_method_handler(
                     servicer.SetUserStatus,
                     request_deserializer=stubs_dot_users__pb2.SetStatusRequest.FromString,
-                    response_serializer=stubs_dot_users__pb2.SetStatusResponse.SerializeToString,
+                    response_serializer=stubs_dot_users__pb2.Response.SerializeToString,
+            ),
+            'TransferUsers': grpc.unary_unary_rpc_method_handler(
+                    servicer.TransferUsers,
+                    request_deserializer=stubs_dot_users__pb2.TransferUsersRequest.FromString,
+                    response_serializer=stubs_dot_users__pb2.Response.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -128,7 +144,34 @@ class Users(object):
             target,
             '/Users/SetUserStatus',
             stubs_dot_users__pb2.SetStatusRequest.SerializeToString,
-            stubs_dot_users__pb2.SetStatusResponse.FromString,
+            stubs_dot_users__pb2.Response.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def TransferUsers(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Users/TransferUsers',
+            stubs_dot_users__pb2.TransferUsersRequest.SerializeToString,
+            stubs_dot_users__pb2.Response.FromString,
             options,
             channel_credentials,
             insecure,

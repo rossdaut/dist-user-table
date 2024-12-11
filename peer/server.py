@@ -14,8 +14,8 @@ class Server:
     def __init__(self, ip, port, join_port=None):
         self.port = port
         self.join_port = join_port
-        self.chord_servicer = ChordServicer('localhost', port)
         self.users_servicer = UsersServicer()
+        self.chord_servicer = ChordServicer('localhost', port, self.users_servicer)
 
     def serve(self):
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
