@@ -27,19 +27,15 @@ class Server:
         if self.join_port:
             self.chord_servicer.join(chord_pb2.Node(ip='localhost', port=self.join_port))
 
-        id = self.chord_servicer.id
         next = 0
         log = open(f"output/log_{self.port}.txt", "w")
 
-        self.chord_servicer.write_finger(f"output/finger_{self.port}.txt")
+        self.write_status()
         while True:
-            log.write(f"[{datetime.now()}] Stabilizing...\n")
-            self.chord_servicer.stabilize()
-            log.write(f"[{datetime.now()}] Fixing fingers...\n")
-            self.chord_servicer.fix_fingers(next)
+            self.stabilize(log)
+            self.fix_fingers(next, log)
+            self.write_status()
             next = (next + 1) % M
-            self.chord_servicer.write_finger(f"output/finger_{self.port}.txt")
-            self.users_servicer.write_users(f"output/users_{self.port}.txt", id)
 
             log.flush()
             time.sleep(1)
@@ -53,3 +49,18 @@ class Server:
         successor = self.chord_servicer.find_successor(hash_id(user_id))
 
         return remote_set_user_status(successor, user_id, status)
+
+
+    # Periodic methods
+
+    def stabilize(self, log):
+        log.write(f"[{datetime.now()}] Stabilizing...\n")
+        self.chord_servicer.stabilize()
+
+    def fix_fingers(self, next, log):
+        log.write(f"[{datetime.now()}] Fixing fingers...\n")
+        self.chord_servicer.fix_fingers(next)
+
+    def write_status(self):
+        self.chord_servicer.write_finger(f"output/finger_{self.port}.txt")
+        self.users_servicer.write_users(f"output/users_{self.port}.txt", self.chord_servicer.id)
