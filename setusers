@@ -1,0 +1,31 @@
+#!/bin/sh
+
+PORT=5000
+NUM_USERS=10
+
+usage(){ echo >&2 "Usage: setusers [-p PORT] [-n NUM_USERS]"; exit 0; }
+
+while getopts :p:h:n: opt; do
+    case $opt in
+        h) usage ;;
+        p) PORT="$OPTARG"
+        ;;
+        n) NUM_USERS="$OPTARG" 
+        ;;
+        \?) echo "Invalid option -$OPTARG" >&2
+        exit 1
+        ;;
+    esac
+
+    case $OPTARG in
+        -*) echo "Option $opt needs a valid argument" >&2
+    esac
+done
+
+for i in $(seq 1 $NUM_USERS)
+do
+    curl \
+     -d '{"status": '$(($RANDOM%2))'}' \
+     -H "Content-Type: application/json" \
+     localhost:$PORT/status/$i
+done
