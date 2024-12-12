@@ -49,6 +49,16 @@ class ChordStub(object):
                 request_serializer=stubs_dot_chord__pb2.Node.SerializeToString,
                 response_deserializer=stubs_dot_chord__pb2.Empty.FromString,
                 _registered_method=True)
+        self.Check = channel.unary_unary(
+                '/Chord/Check',
+                request_serializer=stubs_dot_chord__pb2.Empty.SerializeToString,
+                response_deserializer=stubs_dot_chord__pb2.Empty.FromString,
+                _registered_method=True)
+        self.Successors = channel.unary_unary(
+                '/Chord/Successors',
+                request_serializer=stubs_dot_chord__pb2.Empty.SerializeToString,
+                response_deserializer=stubs_dot_chord__pb2.NodeList.FromString,
+                _registered_method=True)
 
 
 class ChordServicer(object):
@@ -72,6 +82,18 @@ class ChordServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Check(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Successors(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ChordServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -89,6 +111,16 @@ def add_ChordServicer_to_server(servicer, server):
                     servicer.Notify,
                     request_deserializer=stubs_dot_chord__pb2.Node.FromString,
                     response_serializer=stubs_dot_chord__pb2.Empty.SerializeToString,
+            ),
+            'Check': grpc.unary_unary_rpc_method_handler(
+                    servicer.Check,
+                    request_deserializer=stubs_dot_chord__pb2.Empty.FromString,
+                    response_serializer=stubs_dot_chord__pb2.Empty.SerializeToString,
+            ),
+            'Successors': grpc.unary_unary_rpc_method_handler(
+                    servicer.Successors,
+                    request_deserializer=stubs_dot_chord__pb2.Empty.FromString,
+                    response_serializer=stubs_dot_chord__pb2.NodeList.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -172,6 +204,60 @@ class Chord(object):
             '/Chord/Notify',
             stubs_dot_chord__pb2.Node.SerializeToString,
             stubs_dot_chord__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Check(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Chord/Check',
+            stubs_dot_chord__pb2.Empty.SerializeToString,
+            stubs_dot_chord__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Successors(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Chord/Successors',
+            stubs_dot_chord__pb2.Empty.SerializeToString,
+            stubs_dot_chord__pb2.NodeList.FromString,
             options,
             channel_credentials,
             insecure,

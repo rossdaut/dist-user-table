@@ -3,6 +3,7 @@
 import grpc
 import warnings
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 from stubs import users_pb2 as stubs_dot_users__pb2
 
 GRPC_GENERATED_VERSION = '1.68.0'
@@ -46,8 +47,13 @@ class UsersStub(object):
                 _registered_method=True)
         self.TransferUsers = channel.unary_unary(
                 '/Users/TransferUsers',
-                request_serializer=stubs_dot_users__pb2.TransferUsersRequest.SerializeToString,
+                request_serializer=stubs_dot_users__pb2.UsersMap.SerializeToString,
                 response_deserializer=stubs_dot_users__pb2.Response.FromString,
+                _registered_method=True)
+        self.RequestBackup = channel.unary_unary(
+                '/Users/RequestBackup',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=stubs_dot_users__pb2.UsersMap.FromString,
                 _registered_method=True)
 
 
@@ -72,6 +78,12 @@ class UsersServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def RequestBackup(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UsersServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -87,8 +99,13 @@ def add_UsersServicer_to_server(servicer, server):
             ),
             'TransferUsers': grpc.unary_unary_rpc_method_handler(
                     servicer.TransferUsers,
-                    request_deserializer=stubs_dot_users__pb2.TransferUsersRequest.FromString,
+                    request_deserializer=stubs_dot_users__pb2.UsersMap.FromString,
                     response_serializer=stubs_dot_users__pb2.Response.SerializeToString,
+            ),
+            'RequestBackup': grpc.unary_unary_rpc_method_handler(
+                    servicer.RequestBackup,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=stubs_dot_users__pb2.UsersMap.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -170,8 +187,35 @@ class Users(object):
             request,
             target,
             '/Users/TransferUsers',
-            stubs_dot_users__pb2.TransferUsersRequest.SerializeToString,
+            stubs_dot_users__pb2.UsersMap.SerializeToString,
             stubs_dot_users__pb2.Response.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RequestBackup(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Users/RequestBackup',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            stubs_dot_users__pb2.UsersMap.FromString,
             options,
             channel_credentials,
             insecure,

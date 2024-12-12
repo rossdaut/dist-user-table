@@ -23,3 +23,22 @@ def remote_predecessor(target):
         optional_predecessor_grpc = stub.Predecessor(chord_pb2.Empty())
 
         return Node.of(optional_predecessor_grpc.node) if optional_predecessor_grpc.exists else None
+
+def remote_check(target, repeat=3):
+    with grpc.insecure_channel(f"{target.ip}:{target.port}") as channel:
+        stub = chord_pb2_grpc.ChordStub(channel)
+
+        for i in range(repeat):
+            try:
+                stub.Check(chord_pb2.Empty())
+                return True
+            except: continue
+        
+        return False
+
+def remote_successors(target):
+    with grpc.insecure_channel(f"{target.ip}:{target.port}") as channel:
+        stub = chord_pb2_grpc.ChordStub(channel)
+        nodes_list = stub.Successors(chord_pb2.Empty())
+
+        return [Node.of(grpc_node) for grpc_node in nodes_list.nodes]

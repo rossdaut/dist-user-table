@@ -1,3 +1,4 @@
+from google.protobuf import empty_pb2 as _empty_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
@@ -41,7 +42,7 @@ class Response(_message.Message):
     success: bool
     def __init__(self, success: bool = ...) -> None: ...
 
-class TransferUsersRequest(_message.Message):
+class UsersMap(_message.Message):
     __slots__ = ("users",)
     class UsersEntry(_message.Message):
         __slots__ = ("key", "value")

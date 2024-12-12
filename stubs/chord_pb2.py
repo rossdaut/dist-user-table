@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11stubs/chord.proto\"\x1e\n\x10SuccessorRequest\x12\n\n\x02id\x18\x01 \x01(\x0c\"3\n\x0cOptionalNode\x12\x0e\n\x06\x65xists\x18\x01 \x01(\x08\x12\x13\n\x04node\x18\x02 \x01(\x0b\x32\x05.Node\",\n\x04Node\x12\n\n\x02id\x18\x01 \x01(\x0c\x12\n\n\x02ip\x18\x02 \x01(\t\x12\x0c\n\x04port\x18\x03 \x01(\x05\"\x07\n\x05\x45mpty2w\n\x05\x43hord\x12+\n\rFindSuccessor\x12\x11.SuccessorRequest\x1a\x05.Node\"\x00\x12&\n\x0bPredecessor\x12\x06.Empty\x1a\r.OptionalNode\"\x00\x12\x19\n\x06Notify\x12\x05.Node\x1a\x06.Empty\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11stubs/chord.proto\"\x1e\n\x10SuccessorRequest\x12\n\n\x02id\x18\x01 \x01(\x0c\"3\n\x0cOptionalNode\x12\x0e\n\x06\x65xists\x18\x01 \x01(\x08\x12\x13\n\x04node\x18\x02 \x01(\x0b\x32\x05.Node\",\n\x04Node\x12\n\n\x02id\x18\x01 \x01(\x0c\x12\n\n\x02ip\x18\x02 \x01(\t\x12\x0c\n\x04port\x18\x03 \x01(\x05\" \n\x08NodeList\x12\x14\n\x05nodes\x18\x01 \x03(\x0b\x32\x05.Node\"\x07\n\x05\x45mpty2\xb5\x01\n\x05\x43hord\x12+\n\rFindSuccessor\x12\x11.SuccessorRequest\x1a\x05.Node\"\x00\x12&\n\x0bPredecessor\x12\x06.Empty\x1a\r.OptionalNode\"\x00\x12\x19\n\x06Notify\x12\x05.Node\x1a\x06.Empty\"\x00\x12\x19\n\x05\x43heck\x12\x06.Empty\x1a\x06.Empty\"\x00\x12!\n\nSuccessors\x12\x06.Empty\x1a\t.NodeList\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -37,8 +37,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_OPTIONALNODE']._serialized_end=104
   _globals['_NODE']._serialized_start=106
   _globals['_NODE']._serialized_end=150
-  _globals['_EMPTY']._serialized_start=152
-  _globals['_EMPTY']._serialized_end=159
-  _globals['_CHORD']._serialized_start=161
-  _globals['_CHORD']._serialized_end=280
+  _globals['_NODELIST']._serialized_start=152
+  _globals['_NODELIST']._serialized_end=184
+  _globals['_EMPTY']._serialized_start=186
+  _globals['_EMPTY']._serialized_end=193
+  _globals['_CHORD']._serialized_start=196
+  _globals['_CHORD']._serialized_end=377
 # @@protoc_insertion_point(module_scope)

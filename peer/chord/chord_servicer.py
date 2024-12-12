@@ -1,6 +1,6 @@
 from stubs import chord_pb2, chord_pb2_grpc
-from constants import M
-from .remote import remote_find_successor, remote_notify, remote_predecessor
+from constants import M, R
+from .remote import remote_check, remote_find_successor, remote_notify, remote_predecessor, remote_successors
 from .utils import generate_id, id_from_bytes, in_mod_range
 from .node import Node
 
@@ -12,6 +12,7 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
         self.finger = [None] * M
         self.finger[0] = self.node
         self.storage_servicer = storage_servicer
+        self.successors = []
 
     @property
     def successor(self):
@@ -30,18 +31,30 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
         return node.as_grpc()
 
     def Predecessor(self, request, context):
-        predecessor_grpc = self.predecessor.as_grpc() if self.predecessor != None else None
-        return chord_pb2.OptionalNode(exists=self.predecessor != None, node=predecessor_grpc)
+        if self.predecessor == None or not remote_check(self.predecessor):
+            return chord_pb2.OptionalNode(exists=False, node=None)
+
+        return chord_pb2.OptionalNode(exists=True, node=self.predecessor.as_grpc())
 
     def Notify(self, grpc_node, context):
         id = id_from_bytes(grpc_node.id)
+        # TODO: Add comments!
         if self.predecessor == None or in_mod_range(id, self.predecessor.id, self.id):
             self.predecessor = Node.of(grpc_node)
 
             keys_range = range(self.id+1, self.predecessor.id)
             self.storage_servicer.transfer_data(self.predecessor, keys_range)
+        
+        self.storage_servicer.request_backup(self.predecessor)
 
         return chord_pb2.Empty()
+
+    def Check(self, request, context):
+        return chord_pb2.Empty()
+    
+    def Successors(self, request, context):
+        return chord_pb2.NodeList(nodes=[node.as_grpc() for node in self.successors])
+
 
 
     ### PRIVATE ###
@@ -74,19 +87,35 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
 
 
     ### Periodic Methods ###
- 
+
     def stabilize(self):
+        # Check if my successor is alive, update it otherwise
+
+        while not remote_check(self.successor) and len(self.successors) > 0:
+            self.successor = self.successors.pop(0)
+
+        # Update successor if necessary
+
         new_successor = remote_predecessor(self.successor)
         
         if new_successor != None:
             if in_mod_range(new_successor.id, self.id, self.successor.id):
                 self.successor = new_successor
 
+        # My successors are my immediate successor plus its successors (minus the last)
+        self.successors = [self.successor] + remote_successors(self.successor)[:(R-1)]
+
         remote_notify(self.successor, self.node)
 
     def fix_fingers(self, next):
         id = (self.id + 2 ** (next)) % (2 ** M)
         self.finger[next] = self.find_successor(id)
+
+    def check_predecessor(self):
+        if self.predecessor != None:
+            if not remote_check(self.predecessor):
+                self.storage_servicer.save_backup()
+                self.predecessor = None
 
     def write_finger(self, filepath):
         with open(filepath, "w") as f:

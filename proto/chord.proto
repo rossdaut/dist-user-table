@@ -4,6 +4,8 @@ service Chord {
     rpc FindSuccessor (SuccessorRequest) returns (Node) {}
     rpc Predecessor (Empty) returns (OptionalNode) {}
     rpc Notify (Node) returns (Empty) {}
+    rpc Check (Empty) returns (Empty) {}
+    rpc Successors (Empty) returns (NodeList) {}
 }
 
 message SuccessorRequest {
@@ -19,6 +21,10 @@ message Node {
     bytes id = 1;
     string ip = 2;
     int32 port = 3;
+}
+
+message NodeList {
+    repeated Node nodes = 1;
 }
 
 message Empty {}

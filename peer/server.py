@@ -34,6 +34,7 @@ class Server:
         while True:
             self.stabilize(log)
             self.fix_fingers(next, log)
+            self.check_predecessor(log)
             self.write_status()
             next = (next + 1) % M
 
@@ -60,6 +61,12 @@ class Server:
     def fix_fingers(self, next, log):
         log.write(f"[{datetime.now()}] Fixing fingers...\n")
         self.chord_servicer.fix_fingers(next)
+
+    def check_predecessor(self, log):
+        log.write(f"[{datetime.now()}] Checking predecessor...\n")
+        self.chord_servicer.check_predecessor()
+
+    
 
     def write_status(self):
         self.chord_servicer.write_finger(f"output/finger_{self.port}.txt")

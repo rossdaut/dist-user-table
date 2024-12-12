@@ -1,9 +1,12 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 service Users {
     rpc GetUserStatus (UserId) returns (OptionalUserStatus) {}
     rpc SetUserStatus (SetStatusRequest) returns (Response) {}
-    rpc TransferUsers (TransferUsersRequest) returns (Response) {}
+    rpc TransferUsers (UsersMap) returns (Response) {}
+    rpc RequestBackup (google.protobuf.Empty) returns (UsersMap) {}
 }
 
 message UserId {
@@ -24,7 +27,7 @@ message Response {
     bool success = 1;
 }
 
-message TransferUsersRequest {
+message UsersMap {
     map<int32, Status> users = 1;
 }
 

@@ -1,4 +1,5 @@
 import grpc
+from google.protobuf.empty_pb2 import Empty
 
 from stubs import users_pb2, users_pb2_grpc
 
@@ -23,5 +24,12 @@ def remote_transfer_users(address, users):
     with grpc.insecure_channel(f"{address.ip}:{address.port}") as channel:
         stub = users_pb2_grpc.UsersStub(channel)
 
-        response = stub.TransferUsers(users_pb2.TransferUsersRequest(users=users))
+        response = stub.TransferUsers(users_pb2.UsersMap(users=users))
         return response.success
+
+def remote_request_backup(address):
+    with grpc.insecure_channel(f"{address.ip}:{address.port}") as channel:
+        stub = users_pb2_grpc.UsersStub(channel)
+        response = stub.RequestBackup(Empty())
+
+        return response.users
