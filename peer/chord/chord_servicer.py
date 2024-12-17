@@ -71,7 +71,7 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
         return remote_find_successor(n, id)
 
     def closest_preceding_node(self, id):
-        for i in range(M-1, 0, -1):
+        for i in range(M-1, -1, -1): # M-1 M-2 ... 0
             if self.finger[i] == None:
                 continue
 
