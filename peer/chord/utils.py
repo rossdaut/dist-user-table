@@ -3,9 +3,8 @@ import hashlib
 
 from constants import M
 
-def generate_id(ip, port):
-    node_str = f"{ip}:{port}"
-    hexdigest = hashlib.sha1(node_str.encode()).hexdigest()
+def generate_id(address):
+    hexdigest = hashlib.sha1(str(address).encode()).hexdigest()
     return int(hexdigest, 16) % (2 ** M)
 
 def in_mod_range(value, start, end, lclosed=False, rclosed=False):

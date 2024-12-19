@@ -5,9 +5,9 @@ from .utils import generate_id, id_from_bytes, in_mod_range
 from .node import Node
 
 class ChordServicer(chord_pb2_grpc.ChordServicer):
-    def __init__(self, ip, port, storage_servicer):
-        self.id = generate_id(ip, port)
-        self.node = Node(id=self.id, ip=ip, port=port)
+    def __init__(self, address, storage_servicer):
+        self.id = generate_id(address)
+        self.node = Node(id=self.id, ip=address.ip, port=address.port)
         self.predecessor = None
         self.finger = [None] * M
         self.finger[0] = self.node

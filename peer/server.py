@@ -13,26 +13,25 @@ from .users.remote import remote_get_user_status, remote_set_user_status
 from .users.utils import hash_id
 
 class Server:
-    def __init__(self, ip, port, join_ip=None, join_port=None):
-        self.ip = ip
-        self.port = port
-        self.join_ip = join_ip or 'localhost'
-        self.join_port = join_port
-        self.users_servicer = UsersServicer()
-        self.chord_servicer = ChordServicer(ip, port, self.users_servicer)
+    def __init__(self, address, join_address):
+        self.address = address
+        self.join_address = join_address
 
-        self.node_path = Path("output", str(self.port))
+        self.users_servicer = UsersServicer()
+        self.chord_servicer = ChordServicer(address, self.users_servicer)
+
+        self.node_path = Path("output", str(self.address.port))
         os.makedirs(self.node_path, exist_ok=True)
 
     def serve(self):
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         chord_pb2_grpc.add_ChordServicer_to_server(self.chord_servicer, server)
         users_pb2_grpc.add_UsersServicer_to_server(self.users_servicer, server)
-        server.add_insecure_port(f"[::]:{self.port}")
+        server.add_insecure_port(f"[::]:{self.address.port}")
         server.start()
 
-        if self.join_port:
-            self.chord_servicer.join(chord_pb2.Node(ip=self.join_ip, port=self.join_port))
+        if self.join_address:
+            self.chord_servicer.join(chord_pb2.Node(ip=self.join_address.ip, port=self.join_address.port))
 
         next = 0
         log = open(Path(self.node_path, "log.txt"), "w")

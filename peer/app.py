@@ -4,6 +4,8 @@ import sys
 import threading
 from flask import Flask, request
 
+from peer.address import Address
+
 from .server import Server
 
 parser = argparse.ArgumentParser(
@@ -19,16 +21,24 @@ parser.add_argument('-j', '--join-port', type=int, help='Join port')
 
 args = parser.parse_args()
 
-chord_address = args.address or 'localhost'
-chord_port = args.chord_port or 50051
+chord_address = Address(
+    args.address or 'localhost',
+    args.chord_port or 50051
+)
+
+join_address = None
+if args.join_port:
+    join_address = Address(
+        args.join_address or 'localhost',
+        args.join_port
+    )
+
 http_port = args.http_port or 5000
-join_addr = args.join_address
-join_port = args.join_port
 
 
 app = Flask(__name__)
 
-server = Server(chord_address, chord_port, join_addr, join_port)
+server = Server(chord_address, join_address)
 t = threading.Thread(target=server.serve)
 t.start()
 
