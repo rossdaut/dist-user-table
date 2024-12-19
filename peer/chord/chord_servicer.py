@@ -56,7 +56,6 @@ class ChordServicer(chord_pb2_grpc.ChordServicer):
         return chord_pb2.NodeList(nodes=[node.as_grpc() for node in self.successors])
 
 
-
     ### PRIVATE ###
 
     def find_successor(self, id):

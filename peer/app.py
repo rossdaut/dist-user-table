@@ -1,3 +1,4 @@
+import argparse
 import json
 import sys
 import threading
@@ -5,23 +6,29 @@ from flask import Flask, request
 
 from .server import Server
 
-chord_port = 50051
-http_port = 5000
-join_port = None
+parser = argparse.ArgumentParser(
+    prog = 'peer.app',
+    description = 'Launch a chord peer and an http server'
+)
 
-if len(sys.argv) > 1:
-    chord_port = int(sys.argv[1])
+parser.add_argument('-a', '--address', type=str, help='Chord address')
+parser.add_argument('-p', '--chord-port', type=int, help='Chord port')
+parser.add_argument('-P', '--http-port', type=int, help='HTTP port')
+parser.add_argument('-J', '--join-address', type=str, help='Join address')
+parser.add_argument('-j', '--join-port', type=int, help='Join port')
 
-if len(sys.argv) > 2:
-    http_port = int(sys.argv[2])
+args = parser.parse_args()
 
-if len(sys.argv) > 3:
-    join_port = int(sys.argv[3])
+chord_address = args.address or 'localhost'
+chord_port = args.chord_port or 50051
+http_port = args.http_port or 5000
+join_addr = args.join_address
+join_port = args.join_port
 
 
 app = Flask(__name__)
 
-server = Server('localhost', chord_port, join_port)
+server = Server(chord_address, chord_port, join_addr, join_port)
 t = threading.Thread(target=server.serve)
 t.start()
 
