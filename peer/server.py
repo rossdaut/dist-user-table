@@ -1,5 +1,7 @@
 from concurrent import futures
 from datetime import datetime
+import os
+from pathlib import Path
 import grpc
 import time
 
@@ -19,6 +21,9 @@ class Server:
         self.users_servicer = UsersServicer()
         self.chord_servicer = ChordServicer(ip, port, self.users_servicer)
 
+        self.node_path = Path("output", str(self.port))
+        os.makedirs(self.node_path, exist_ok=True)
+
     def serve(self):
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         chord_pb2_grpc.add_ChordServicer_to_server(self.chord_servicer, server)
@@ -30,7 +35,7 @@ class Server:
             self.chord_servicer.join(chord_pb2.Node(ip=self.join_ip, port=self.join_port))
 
         next = 0
-        log = open(f"output/log_{self.port}.txt", "w")
+        log = open(Path(self.node_path, "log.txt"), "w")
 
         self.write_status()
         while True:
@@ -68,8 +73,6 @@ class Server:
         log.write(f"[{datetime.now()}] Checking predecessor...\n")
         self.chord_servicer.check_predecessor()
 
-    
-
     def write_status(self):
-        self.chord_servicer.write_finger(f"output/finger_{self.port}.txt")
-        self.users_servicer.write_users(f"output/users_{self.port}.txt", self.chord_servicer.id)
+        self.chord_servicer.write_finger(Path(self.node_path, "finger.txt"))
+        self.users_servicer.write_users(Path(self.node_path, "users.txt"), self.chord_servicer.id)
